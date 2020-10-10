@@ -1,0 +1,8 @@
+
+{
+    "host": "management-tutorial.cx9afxgasocg.us-east-2.rds.amazonaws.com",
+    "user": "user",
+    "password": "ckdeo102",
+    "port": "3306",
+    "database": "management" 
+}

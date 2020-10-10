@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import Paper from '@material-ui/core/Paper'
+import Paper from '@material-ui/core/Paper';
 import Customer from './components/Customer';
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
@@ -9,7 +9,6 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles } from '@material-ui/core/styles';
-
 
 
 const styles = theme => ({
@@ -77,7 +76,7 @@ class App extends Component {
           <TableBody>
             {this.state.customers ? this.state.customers.map(c => {
                return (<Customer key={c.id} id={c.id} image={c.image} name={c.name} birthday={c.birthday} gender={c.gender} job={c.job}/>); 
-              }) : 
+              }) :
               <TableRow>
                 <TableCell colSpan="6" align="center">
                   <CircularProgress className={classes.progress} variant="determinate" value={this.state.completed}/>
