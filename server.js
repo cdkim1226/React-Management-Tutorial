@@ -24,6 +24,9 @@ app.use(bodyParser.urlencoded({ extended: true}));
 //2 크롤링데이터 저장
 //3 크롤링데이터 API 제공
 
+const multer = require('multer');
+const upload = multer({dest: './upload'});
+
 
 //ejs view engine setting
 app.set("views", path.join(__dirname, "views"));
@@ -38,6 +41,7 @@ app.set("view engin", "ejs");
 //그 요청에 맞게 응답을 해주는 것
 //라우팅 모듈화
 const customerAPI = require("./routes/api");
+const { connect } = require('./config/db_config');
 app.use("/api", customerAPI);
 // const data = fs.readFileSync('./database.json');
 // const conf = JSON.parse(data);
@@ -72,5 +76,23 @@ db.query('select * from customer',function(err, results, fields){
 //     if (err) console.error(err);
 //     }
 // });
+
+app.use('/image', express.static('./upload'));
+
+app.post('/api/customers', upload.single('image'), (req, res) => {
+  let sql = 'INSERT INTO customer VALUES(NULL,?,?,?,?,?)';
+  let image = '/image/' + req.file.filename;
+  let name = req.body.name;
+  let birthday = req.body.birthday;
+  let gender = req.body.gender;
+  let job = req.body.job;
+  let params = [image, name, birthday, gender, job];
+  db.query(sql, params,
+    (err, results, fileds) => {
+      res.send(results);
+      console.log(err);
+      console.log(results);
+    });
+});
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
