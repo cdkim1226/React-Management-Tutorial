@@ -4,7 +4,7 @@ let router = express.Router();
 let db = require("../config/db_config");
 
 router.get("/customers", function (req, res) {
-  let sql = `select * from customer`;
+  let sql = `select * from customer where isDeleted = 0`;
   try {
     db.query(sql, (error, result) => {
       if (error) console.error(error);

@@ -80,7 +80,7 @@ db.query('select * from customer',function(err, results, fields){
 app.use('/image', express.static('./upload'));
 
 app.post('/api/customers', upload.single('image'), (req, res) => {
-  let sql = 'INSERT INTO customer VALUES(NULL,?,?,?,?,?)';
+  let sql = 'INSERT INTO customer VALUES(NULL,?,?,?,?,?,now(),0)';
   let image = '/image/' + req.file.filename;
   let name = req.body.name;
   let birthday = req.body.birthday;
@@ -94,5 +94,14 @@ app.post('/api/customers', upload.single('image'), (req, res) => {
       console.log(results);
     });
 });
+
+app.delete('/api/customers/:id',(req, res) => {
+  let sql = 'update customer set isDeleted = 1 where id = ?';
+  let params = [req.params.id];
+  db.query(sql, params,
+    (err, results, fields) => {
+      res.send(results);
+    })
+})
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
